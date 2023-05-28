@@ -1,0 +1,396 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+  <script src="{% static 'main/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'main/js/script.js' %}"></script>
+
+
+
+  {% block contentcss %}
+
+  {% endblock %}
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <!-- <div style="display: flex;justify-content: space-between;">
+                <div class="head_left">
+                    <div class="dropdown">
+                        <h4 class="h_head_left">Стиль отображения</h4>
+                        <div class="dropdown-content">
+                            <a style="margin-top: 9px;" href="#"><img style="margin-right: 15px;" src="{% static 'main/img/menu1.png' %}" alt="">Классический</a>
+                            <a href="#"><img style="margin-right: 15px;" src="{% static 'main/img/menu2.png' %}" alt="">Продвинутый</a>
+                            <a href="#"><img style="margin-right: 15px;" src="{% static 'main/img/menu3.png' %}" alt="">Увеличенный</a>
+                        </div>
+                    </div>               
+                    <button class="btn_head_left">Настройки</button>
+                </div>
+                <div class="head_right">
+                    <button class="btn_head_right">Спрогнозировать</button>
+                </div>
+            </div>  -->
+      <div style="display: flex;justify-content: space-between;margin-top: 15px;">
+        <div class="head_left">
+          <img src="../../static/main/img/logo.svg" height="70" alt="">
+        </div>
+        <div class="head_right">
+          <!--  <li><a class="li_a_1" href="dinam_bron">Динамика бронирования</a></li>
+                    <li><a class="li_a_2" href="seasons">Сезоны</a></li>
+                    <li><a class="li_a_3" href="prof_spros">Профиль спроса</a></li>  -->
+        </div>
+      </div>
+
+
+    </div>
+  </header>
+  {% block content %}
+
+  {% endblock %}
+
+
+
+  <script>
+    var btnnav1 = document.getElementById("btn_nav1");
+    btnnav1.addEventListener("click", function () {
+      document.getElementById('btn_nav1').style = 'background-color: white;border-bottom-color: white;';
+      document.getElementById('btn_nav2').style = 'background-color: #f3f9ff;border-bottom-color: #c0cee0;';
+      document.getElementById('btn_nav3').style = 'background-color:  #f3f9ff;border-bottom-color: #c0cee0;';
+
+    });
+    var btnnav2 = document.getElementById("btn_nav2");
+    btnnav2.addEventListener("click", function () {
+      document.getElementById('btn_nav2').style = 'background-color: white;border-bottom-color: white;';
+      document.getElementById('btn_nav1').style = 'background-color: #f3f9ff;border-bottom-color: #c0cee0;';
+      document.getElementById('btn_nav3').style = 'background-color:  #f3f9ff;border-bottom-color: #c0cee0;';
+    });
+    var btnnav3 = document.getElementById("btn_nav3");
+    btnnav3.addEventListener("click", function () {
+      document.getElementById('btn_nav3').style = 'background-color: white;border-bottom-color: white;';
+      document.getElementById('btn_nav2').style = 'background-color: #f3f9ff;border-bottom-color: #c0cee0;';
+      document.getElementById('btn_nav1').style = 'background-color:  #f3f9ff;border-bottom-color: #c0cee0;';
+    });
+
+
+
+    var form = document.getElementById('zapros');
+    var select_reis = document.getElementById('reisId');
+    var select_class = document.getElementById('classId');
+    var canvas1 = document.getElementById("canvas1");
+
+
+    $(document).ready(function () {
+      $('#date-select').on('click', function () {
+        $('.loading-screen').fadeIn('slow');
+      });
+
+      $('#search_final').on('click', function () {
+        $('.loading-screen').fadeIn('slow');
+      });
+
+      $('#btn_search2').on('click', function () {
+        $('.loading-screen').fadeIn('slow');
+      });
+
+
+
+
+
+    });
+
+
+
+
+
+    $(window).on('load', function () {
+      $(".loading-screen").fadeOut("slow");
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //sohran pechenie gorOt gorDO дата(календарь)
+    function getCookie(name) {
+      const value = "; " + document.cookie;
+      const parts = value.split("; " + name + "=");
+      if (parts.length === 2)
+        return parts.pop().split(";").shift();
+    }
+
+
+
+
+    function setCookie(name, value) {
+      const now = new Date();
+      const time = now.getTime();
+      const expireTime = time + 1000 * 3600 * 24 * 365; // 1 year
+      now.setTime(expireTime);
+      document.cookie = name + "=" + value + ";expires=" + now.toGMTString() + ";path=/";
+    }
+
+    const select1 = document.getElementById("gorOt");
+    select1.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue1", selectedValue);
+    });
+
+    const select2 = document.getElementById("gorDo");
+    select2.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue2", selectedValue);
+    });
+
+    const daySel = document.getElementById("daySel");
+    daySel.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue3", selectedValue);
+    });
+
+    const monthSel = document.getElementById("monthSel");
+    monthSel.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue4", selectedValue);
+    });
+
+    const yearSel = document.getElementById("yearSel");
+    yearSel.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue5", selectedValue);
+    });
+
+    const reisId = document.getElementById("reisId");
+    reisId.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue6", selectedValue);
+    });
+
+    const classId = document.getElementById("classId");
+    classId.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue7", selectedValue);
+    });
+
+    const per1 = document.getElementById("per1");
+    per1.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue8", selectedValue);
+    });
+
+    const per2 = document.getElementById("per2");
+    per2.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue9", selectedValue);
+    });
+
+    const select3 = document.getElementById("gorOt2");
+    select3.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue10", selectedValue);
+    });
+
+    const select4 = document.getElementById("gorDo2");
+    select4.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue11", selectedValue);
+    });
+
+    const reisId2 = document.getElementById("reisId2");
+    reisId2.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue12", selectedValue);
+    });
+
+    const classId2 = document.getElementById("classId2");
+    classId2.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue13", selectedValue);
+    });
+
+    const per12 = document.getElementById("per12");
+    per12.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue14", selectedValue);
+    });
+
+    const per22 = document.getElementById("per22");
+    per22.addEventListener("change", function () {
+      const selectedValue = this.value;
+      setCookie("selectedValue15", selectedValue);
+    });
+
+    window.addEventListener("load", function () {
+      const selectedValue1 = getCookie("selectedValue1");
+      if (selectedValue1) {
+        select1.value = selectedValue1;
+      }
+
+      const selectedValue2 = getCookie("selectedValue2");
+      if (selectedValue2) {
+        select2.value = selectedValue2;
+      }
+
+      const selectedValue3 = getCookie("selectedValue3");
+      if (selectedValue3) {
+        daySel.value = selectedValue3;
+      }
+
+      const selectedValue4 = getCookie("selectedValue4");
+      if (selectedValue4) {
+        monthSel.value = selectedValue4;
+      }
+
+      const selectedValue5 = getCookie("selectedValue5");
+      if (selectedValue5) {
+        yearSel.value = selectedValue5;
+      }
+
+      const selectedValue6 = getCookie("selectedValue6");
+      if (selectedValue6) {
+        reisId.value = selectedValue6;
+      }
+
+      const selectedValue7 = getCookie("selectedValue7");
+      if (selectedValue7) {
+        classId.value = selectedValue7;
+      }
+
+      const selectedValue8 = getCookie("selectedValue8");
+      if (selectedValue8) {
+        per1.value = selectedValue8;
+      }
+
+      const selectedValue9 = getCookie("selectedValue9");
+      if (selectedValue9) {
+        per2.value = selectedValue9;
+      }
+
+      const selectedValue10 = getCookie("selectedValue10");
+      if (selectedValue10) {
+        select3.value = selectedValue10;
+      }
+
+      const selectedValue11 = getCookie("selectedValue11");
+      if (selectedValue11) {
+        select4.value = selectedValue11;
+      }
+
+      const selectedValue12 = getCookie("selectedValue12");
+      if (selectedValue12) {
+        reisId2.value = selectedValue12;
+      }
+
+      const selectedValue13 = getCookie("selectedValue13");
+      if (selectedValue13) {
+        classId2.value = selectedValue13;
+      }
+
+      const selectedValue14 = getCookie("selectedValue14");
+      if (selectedValue14) {
+        per12.value = selectedValue14;
+      }
+
+      const selectedValue15 = getCookie("selectedValue15");
+      if (selectedValue15) {
+        per22.value = selectedValue15;
+      }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const selectElement = document.getElementById("gorOt");
+
+    // очистить выбранное значение
+    selectElement.value = "";
+
+    // установить пустую опцию по умолчанию
+    const defaultOption = document.createElement("option");
+    defaultOption.text = "";
+    defaultOption.value = "";
+    defaultOption.selected = true;
+    defaultOption.disabled = false;
+    selectElement.add(defaultOption, 0);
+
+
+
+
+    const gorDoElement = document.getElementById("gorDo"); // получить второй select
+    const gorOtElement = document.getElementById("gorOt"); // получить второй select
+
+
+    gorOtElement.addEventListener("change", () => {
+      if (gorOtElement.value === "Сочи") {
+        gorDoElement.innerHTML = "<option selected></option><option value='Москва'>Москва</option>";
+      } else if (gorOtElement.value === "Москва") {
+        gorDoElement.innerHTML = "<option selected></option><option value='Сочи'>Сочи</option><option value='Астрахань'>Астрахань</option>";
+      } else
+        gorDoElement.innerHTML = "<option selected></option><option value='Москва'>Москва</option>";
+
+    });
+
+
+
+
+
+
+  </script>
+
+
+
+
+  <div class="loading-screen">
+    <svg class="loading-icon" width="76px" height="76px" viewBox="2 2 76 76" version="1.1"
+      class="circle-preloader circle-preloader--plane circle-preloader--big">
+      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+        transform="translate(40.000000, 40.500000) rotate(-270.000000) translate(-40.000000, -40.500000) translate(2.500000, 3.000000)">
+        <rect opacity="0" x="0.5" y="0.493421053" width="76" height="76" rx="37"></rect>
+        <g transform="translate(15.110195, 36.326992) rotate(8.000000) translate(-15.110195, -36.326992) translate(3.610195, 24.826992)"
+          fill="#FFFFFF">
+          <path transform="translate(11.535930, 11.139333) rotate(-13.000000) translate(-11.535930, -11.139333) "
+            d="M12.6632024,8.20679828 C12.662541,8.42711024 12.664816,8.6744139 12.6633541,8.93903888 L21.1273348,15.913104 L21.1313379,16.8405526 L12.559211,12.7210641 C12.4533107,15.2910564 12.2638721,16.2868803 12.0212506,17.9623544 L15.4796218,19.9921941 L15.4859971,20.2548156 L11.819387,19.0072968 C11.7401942,19.2935895 11.6626267,19.4547256 11.5775894,19.4529137 C11.4926787,19.4538637 11.2031179,19.2899819 11.3291913,19.0132599 C9.61442479,19.3919956 7.68643801,20.3123415 7.68643801,20.3123415 L7.68327676,20.045705 L11.111386,17.9684256 C10.843261,16.2953864 10.6103311,15.3025562 10.4589346,12.7288844 L1.95172202,16.9811822 L1.94052288,16.0573694 L10.2922833,8.95760735 C10.286296,8.69109458 10.2835064,8.4449204 10.2813416,8.22473217 C10.2538533,4.77114549 10.768273,1.97018079 11.425076,1.96633285 C12.0840639,1.96072883 12.6391814,4.75472023 12.6632024,8.20679828">
+          </path>
+        </g>
+      </g>
+    </svg>
+  </div>
+</body>
+
+</html>

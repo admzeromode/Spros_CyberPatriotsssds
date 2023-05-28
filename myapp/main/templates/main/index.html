@@ -1,0 +1,551 @@
+{% extends 'main/base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container2">
+    <div class="head2_nav">
+        <button id="btn_nav1" style="background-color: white;border-bottom-color:white ;" class="btn_nav1">Динамика
+            бронирования</button>
+        <button id="btn_nav2" class="btn_nav2">Сезоны</button>
+        <button id="btn_nav3" class="btn_nav3">Профиль спроса</button>
+
+    </div>
+    <form action="" , id="zapros" , method="POST">
+        {% block javascript %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        {% endblock %}
+        {% csrf_token %}
+        <div id="block1" class="head21_menu">
+            <div class="head2_menu_div">
+                <div style="display:flex;">
+                    <div>
+                        <h3>Город вылета:</h3>
+                        <div class="div_select">
+                            <select class="ntSaveForms" name="gor_ot" id="gorOt">
+                                <option value="Москва">Москва</option>
+                                <option value="Сочи">Сочи</option>
+                                <option value="Астрахань">Астрахань</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h3>Город прилета:</h3>
+                        <div class="div_select">
+                            <select class="ntSaveForms" name="gor_do" id="gorDo">
+                                <option class="sub" value="Сочи">Сочи</option>
+                                <option class="sub" value="Астрахань">Астрахань</option>
+                                <option class="sub" value="Москва">Москва</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="head2_menu_div">
+                <h3>Выберите дату рейса:</h3>
+                <div class="number">
+                    <div class="div_select" style="margin-bottom: 3px;">
+                        <select name="day" class="" id="daySel">
+                            <option value="01">1</option>
+                            <option value="02">2</option>
+                            <option value="03">3</option>
+                            <option value="04">4</option>
+                            <option value="05">5</option>
+                            <option value="06">6</option>
+                            <option value="07">7</option>
+                            <option value="08">8</option>
+                            <option value="09">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="div_select" style="margin-bottom: 3px;">
+                        <select name="mon" class="" id="monthSel">
+                            <option value="Январь">Январь</option>
+                            <option value="Февраль">Февраль</option>
+                            <option value="Март">Март</option>
+                            <option value="Апрель">Апрель</option>
+                            <option value="Май">Май</option>
+                            <option value="Июнь">Июнь</option>
+                            <option value="Июль">Июль</option>
+                            <option value="Август">Август</option>
+                            <option value="Сентябрь">Сентябрь</option>
+                            <option value="Октябрь">Октябрь</option>
+                            <option value="Ноябрь">Ноябрь</option>
+                            <option value="Декабрь">Декабрь</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="year">
+                    <div class="div_select" style="margin-bottom: 3px;">
+                        <select name="year" class="" id="yearSel">
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                        </select>
+                    </div>
+                </div>
+
+                <input value="Выбрать дату" name='bron' id="date-select" type="submit"
+                    style="background-color: #4a90e2;padding: 5px;border-radius: 10px;margin-top: 5px;border: none;color: white;font-size: 13pt;"
+                    value="Выбрать дату">
+            </div>
+
+            <div class="head2_menu_div">
+                <h3>Выберите рейс:</h3>
+                <div class="div_select">
+                    <select name="reis" id="reisId">
+                        {% for i in reis %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+
+
+
+
+            <script type="text/javascript">
+                /* $(document).ready(function() {
+              $('#zapros').submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                  type: 'POST',
+                  url: '',
+                  data: {
+                    'gor_ot': $('#gor_ot :selected').text(),
+                    'gor_do': $('#gor_do :selected').text(),
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                  },
+                  success: function() {
+                  },
+                  error: function() {
+                  }
+                });
+              });
+            }); */
+                {% comment %} function zero_first_format(value) {
+                    if (value < 10) {
+                        value = '0' + value;
+                    }
+                    return value;
+                }
+                function date_time() {
+                    var current_datetime = new Date();
+                    var day = zero_first_format(current_datetime.getDate());
+                    var month = zero_first_format(current_datetime.getMonth() + 1);
+                    var year = current_datetime.getFullYear();
+                    return day + "." + month + "." + year;
+                }
+                document.getElementById('calendar').value = date_time(); {% endcomment %}
+            </script>
+
+
+
+            <div class="head2_menu_div">
+                <h3>Веберите класс бронирования:</h3>
+                <div class="div_select">
+                    <select name="class_br" id="classId" aria-placeholder="ewewe">
+                        {% for i in class_br %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="head2_menu_div">
+                <h3>Выберите период для просмотра динамики</h3>
+                <select name="bron_for_user_start" id="per1" aria-placeholder="ewewe">
+                    {% for i in bron_for_user %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+                <select name="bron_for_user_end" id="per2" aria-placeholder="ewewe">
+                    {% for i in bron_for_user %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button name='bron1' id="search_final" value="Найти1" class="btn_search">Найти</button>
+        </div>
+    </form>
+    <div id="graf1" class="graf_1">
+   
+        <canvas style="margin-top: 10px;" width="300" height="150" id="canvas1"></canvas>
+
+    </div>
+
+    <form action="" , id="zapros2" , method="POST">
+        {% csrf_token %}
+        <div id="block2" class="head22_menu">
+            <div class="head2_menu_div">
+                <div style="display:flex;">
+                    <div>
+                        <h3>Город вылета:</h3>
+                        <div class="div_select">
+                            <select name="gor_ot2" id="gorOt2">
+                                <div>
+                                    <option value="Москва">Москва</option>
+                                </div>
+                                <option value="Сочи">Сочи</option>
+                                <option value="Астрахань">Астрахань</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h3>Город прилета:</h3>
+                        <div class="div_select">
+                            <select name="gor_do2" id="gorDo2">
+                                <option value="Москва">Москва</option>
+                                <option value="Сочи">Сочи</option>
+                                <option value="Астрахань">Астрахань</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="head2_menu_div">
+                <h3>Выберите рейс:</h3>
+                <div class="div_select">
+                    <select name="reis2" id="reisId2">
+                        {% for i in reis2 %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="head2_menu_div">
+                <h3>Веберите класс бронирования:</h3>
+                <div class="div_select">
+                    <select name="class_br2" id="classId2">
+                        {% for i in class_br2 %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="head2_menu_div">
+                <h3>Выберите период для просмотра динамики</h3>
+                <select name="bron_for_user_start2" id="per12" aria-placeholder="ewewe">
+
+                    {% for i in bron_for_user2 %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+
+                </select>
+                <select name="bron_for_user_end2" id="per22" aria-placeholder="ewewe">
+
+                    {% for i in bron_for_user2 %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
+            <button name='bron2' value='Найти2' id="btn_search2" class="btn_search"
+                style="margin: 70px 25px 0 0px;">Найти</button>
+        </div>
+        <div id="hide_canvas2"  class="graf_1">
+            <canvas width="300" height="150" id="canvas2"></canvas>
+        </div>
+
+        <div id="graf2" class="graf_1">
+            <div style="color: black; margin-left: 10px;" class="div_colour">
+                 <h3>Легенда:</h3>
+                 <div  style="display: flex;">
+                <div id="divColour" style="height: 15px;width: 15px;">
+    
+                </div>
+                <div id="divText" style="margin-left: 10px;">
+    
+                </div>
+                </div>
+                <canvas style="margin-top: 10px;" width="300" height="150" id="canvas2"></canvas>
+
+            </div>
+    
+        </div>
+    </form>
+
+
+
+    <!--     <div id="block3" class="head23_menu">
+        <div class="head2_menu_div">
+            <div style="display:flex;">
+                <div>
+                    <h3>Город вылета:</h3>
+                    <div class="div_select">
+                        <select name="" id="">
+                            <div><option value="">Москва</option></div>
+                            <option value="">Сочи</option>
+                            <option value="">Астрахань</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-left: 20px;">
+                    <h3>Город прилета:</h3>
+                    <div class="div_select">
+                        <select name="" id="">
+                            <option value="">Москва</option>
+                            <option value="">Сочи</option>
+                            <option value="">Астрахань</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="head2_menu_div">
+            <h3>Выберите рейс:</h3>
+            <div class="div_select">
+                <select name="" id="">
+                    <option value="">CS213</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="head2_menu_div">
+            <h3>Выберите период для просмотра динамики</h3>
+            <input type="text" class="date2" id="calendar2" name="date">   
+            <input type="text" class="date3" id="calendar3" name="date">   
+        </div>
+
+
+        <div class="head2_menu_div">
+            <h3>Веберите класс бронирования:</h3>
+            <div class="div_select">
+                <select name="" id="">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+
+        <button id="btn_search3" class="btn_search" style="margin: 70px 24px 0 0px;">Найти</button>
+    </div> -->
+
+
+
+</div>
+<script src="../../static/main/js/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/0.7.7/chartjs-plugin-zoom.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.js"></script>
+<script>
+    
+    let dat = [];
+    let val = [];
+    var bron_men_new = '{{bron_men_new}}';
+    '{% for i in period %}'
+    var period = '{{i}}';
+    dat.push(period);
+    '{% endfor %}'
+    '{% for i in bron_men_new %}'
+    var bron_men_new = '{{i}}';
+    val.push(bron_men_new);
+    '{% endfor %}'
+    let x = [];
+    let y = [];
+    let vozv = [];
+    var x_new = '{{x}}';
+    '{% for i in y %}'
+    var y_a = '{{i}}';
+    y.push(y_a);
+    '{% endfor %}'
+    '{% for i in x %}'
+    var x_a = '{{i}}';
+    x.push(x_a);
+    '{% endfor %}'
+    '{% for i in vozv %}'
+    var vozv_a = '{{i}}';
+    vozv.push(vozv_a);
+    '{% endfor %}'
+    console.log(x[0]);
+    console.log(y[0]);
+    console.log(vozv[0]);
+
+
+    const ctx1 = document.getElementById('canvas1').getContext('2d');
+    const chart1 = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: dat,
+            datasets: [
+                {
+                    label: 'Бронирования',
+                    data: val,
+                    backgroundColor: 'rgb(155, 0, 0)',
+                    borderColor: 'rgb(199, 199, 199)',
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) {
+                                if (value % 1 === 0) {
+                                    return value;
+                                }
+                            },
+                        },
+                    },
+                ],
+            },
+            plugins: {
+
+                zoom: {
+                    zoom: {
+                        enabled: true,
+                        mode: 'y',
+                    },
+                    pan: {
+                        enabled: true,
+                        mode: 'xy',
+                        speed: 10,
+                        threshold: 10,
+                    },
+                },
+            },
+        },
+    });
+
+
+
+
+
+
+
+
+
+let dat2 = [];
+let val2 = [];
+var bron_men_new2 = '{{bron_men_new2}}';
+'{% for i in period2 %}'
+var period2 = '{{i}}';
+dat2.push(period2);
+'{% endfor %}'
+'{% for i in bron_men_new2 %}'
+var bron_men_new2 = '{{i}}';
+val2.push(bron_men_new2);
+'{% endfor %}'
+var ctx2 = document.getElementById('canvas2').getContext('2d');
+var chart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: dat2,
+        datasets: [
+        {
+            label: '<Динамика бронирования>',
+            data: val2,
+            backgroundColor: 'rgb(155, 0, 0)',
+            borderColor: 'rgb(199, 199, 199)' ,
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        annotation: { // Добавлен объект "annotation"
+                annotations: [],
+            },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    callback: function(value) {
+                        if (value % 1 === 0) {
+                            return value;
+                        }
+                    }
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                zoom: {
+                    enabled: true,
+                    mode: 'y',
+                },
+                pan: {
+                    enabled: true,
+                    mode: 'xy',
+                    speed: 10,
+                    threshold: 10,
+                },
+            }
+        }
+    }
+});
+
+function addRectangles(chart2, start, end, low, high, options) {
+        chart2.options.annotation.annotations.push({
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            xMin: start,
+            xMax: end,
+            yMin: low,
+            yMax: high,
+            backgroundColor: options.backgroundColor,
+            borderColor: options.borderColor,
+            borderWidth: 2,
+            label: {
+                enabled: options.label.enabled,
+                content: options.label.content,
+                position: 'top',
+            },
+        });
+        chart2.update();
+
+    }
+
+    console.log(x.length);
+    for (i = 0; i < x.length; i++) {
+        addRectangles(chart2, x[i], y[i], 0, vozv[i], {
+        backgroundColor: 'rgba(0, 128, 0, 0.5)',
+        borderColor: 'rgb(0, 0, 0)',
+        borderWidth: 2,
+        label: {
+            enabled: true,
+            content: 'My rectangle label',
+            position: 'top',
+        },
+    });
+    document.getElementById('divColour').style = 'background-color: rgba(0, 128, 0, 0.5);border-color: black;height: 15px;width: 15px;';
+    document.getElementById('divText').innerHTML = 'Область'
+}
+</script>
+
+{% endblock %}
